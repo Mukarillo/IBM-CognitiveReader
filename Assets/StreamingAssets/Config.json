@@ -1,0 +1,69 @@
+{
+    "m_ClassifierDirectory": "Watson/Scripts/Editor/Classifiers/",
+    "m_TimeOut": 30.0,
+    "m_MaxRestConnections": 5,
+    "m_Credentials": [
+        {
+            "m_ServiceID": "ConversationV1",
+            "m_URL": "https://gateway.watsonplatform.net/conversation/api",
+            "m_User": "d5fb9a13-d8a2-402f-b132-594827dc9788",
+            "m_Password": "wb1xxLnYNN60",
+            "m_Apikey": null,
+            "m_Note": null
+        },
+        {
+            "m_ServiceID": "RetrieveAndRankV1",
+            "m_URL": "https://gateway.watsonplatform.net/retrieve-and-rank/api",
+            "m_User": "7980862b-6068-4a17-912e-f125330b98b5",
+            "m_Password": "IT52ykibX8h7",
+            "m_Apikey": null,
+            "m_Note": null
+        },
+        {
+            "m_ServiceID": "DocumentConversionV1",
+            "m_URL": "https://gateway.watsonplatform.net/document-conversion/api",
+            "m_User": "9cb434ef-60d0-489a-826b-715b4edf9891",
+            "m_Password": "DkqOQA7SGnzG",
+            "m_Apikey": null,
+            "m_Note": null
+        },
+        {
+            "m_ServiceID": "TextToSpeechV1",
+            "m_URL": "https://stream.watsonplatform.net/text-to-speech/api",
+            "m_User": "a6b1d178-501b-45fc-ae82-fe7a02c3ecd6",
+            "m_Password": "fvnNfo4Gx3Uh",
+            "m_Apikey": null,
+            "m_Note": null
+        },
+        {
+            "m_ServiceID": "SpeechToTextV1",
+            "m_URL": "https://stream.watsonplatform.net/speech-to-text/api",
+            "m_User": "6f0cff46-249a-46e0-b51d-2bec38d68a94",
+            "m_Password": "kCmDDzGjMcZQ",
+            "m_Apikey": null,
+            "m_Note": null
+        },
+        {
+            "m_ServiceID": "LanguageTranslationV1",
+            "m_URL": "https://gateway.watsonplatform.net/language-translation/api",
+            "m_User": "ea54c730-b098-4c61-b15a-50a432d91019",
+            "m_Password": "8JkzNLUVQH5H",
+            "m_Apikey": null,
+            "m_Note": null
+        },
+        {
+            "m_ServiceID": "AlchemyAPIV1",
+            "m_URL": "https://gateway-a.watsonplatform.net/calls",
+            "m_User": null,
+            "m_Password": null,
+            "m_Apikey": "c0e6b32eec9a36452c6ef423381617b3e87ff902",
+            "m_Note": "It may take up to 5 minutes for this key to become active"
+        }
+    ],
+    "m_Variables": [
+        {
+            "Key": "ConversationV1_ID",
+            "Value": "e79e51e8-a04d-4cf9-9ae1-ccfce5b50464"
+        }
+    ]
+}
