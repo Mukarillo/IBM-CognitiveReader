@@ -206,10 +206,11 @@ public class SoundManager : MonoBehaviour {
 	}
 	
 	private void OnApplicationPause (bool isPaused){
-	    if(isPaused)
+	    /*if(isPaused)
 			StopAllSounds();
 	    else
 			PlayAllSounds();
+			*/
  	}
 	
 	private static float BetweenZeroOne(float value){
@@ -236,8 +237,6 @@ public class SoundManager : MonoBehaviour {
 			if(lst[i].gameObject == gameObject) continue;
 			Destroy(lst[i]);
 		}
-
-		_AllPlaying = new List<Sound>();
 
 		AllSounds = new Sound[AllSoundsHolder.Count+AllStreamSoundsHolder.Count+AllResourceSoundsHolder.Count];
 		AllSoundsHolder.CopyTo(AllSounds, 0);
@@ -364,14 +363,10 @@ public class SoundManager : MonoBehaviour {
 						_AllPlaying[i].currentSource.volume = _AllPlaying[i].controllerFadeIn/(_AllPlaying[i].timeToFadeIn*SoundManager.fps);
 						if(_AllPlaying[i].currentSource.volume >= 1) _AllPlaying[i].fadeIn = false;
 					}
-				}
-				if(_AllPlaying[i].currentSource != null){
 					if(_AllPlaying[i].stopAt != 0){
 						if(_AllPlaying[i].currentSource.time >= _AllPlaying[i].stopAt)
 							_AllPlaying[i].currentSource.Stop();
 					}
-				}
-				if(_AllPlaying[i].currentSource != null){
 					if(_AllPlaying[i].fadeOut){
 						if(_AllPlaying[i].currentSource.time >= _AllPlaying[i].controllerFadeOut){
 							_AllPlaying[i].fadeOutTimer++;
@@ -379,16 +374,13 @@ public class SoundManager : MonoBehaviour {
 							if(_AllPlaying[i].currentSource.volume <= 0) _AllPlaying[i].fadeOut = false;
 						}
 					}
-				}
-				if(_AllPlaying[i].currentSource != null){
 					if(System.Math.Round(_AllPlaying[i].currentSource.time,2) >= System.Math.Round(_AllPlaying[i].timeToTrigger,2) && _AllPlaying[i].canShootEvent){
 						GameObject toRecive = (_AllPlaying[i].targetForTrigger != null) ? _AllPlaying[i].targetForTrigger : gameObject;
 						string funcToTrigger = (_AllPlaying[i].functionForTrigger != null) ? _AllPlaying[i].functionForTrigger : "OnSoundTrigger";
 						toRecive.SendMessage(funcToTrigger, _AllPlaying[i].name, SendMessageOptions.DontRequireReceiver);
 						_AllPlaying[i].canShootEvent = false;
 					}
-				}
-				if(_AllPlaying[i].currentSource != null){
+
 					if(!_AllPlaying[i].currentSource.isPlaying && !_AllPlaying[i].isMuted && !_AllPlaying[i].canShootEvent){
 						_AllPlaying[i].currentSource.clip = null;
 						_AllPlaying.RemoveAt(i);
@@ -662,10 +654,8 @@ public class SoundManager : MonoBehaviour {
 			if(string.Equals(_AllPlaying[i].name, clipName))
 				hold.Add(_AllPlaying[i]);
 		}
-		toReturn = new Sound[hold.Count];
-		for(int i = 0; i<hold.Count;i++){
-			toReturn[i] = hold[i];
-		}
+		toReturn = hold.ToArray();
+
 		if(toReturn == null || toReturn.Length == 0)
 			Debug.LogWarning("There's no: "+clipName+" AudioClip set. Check the typo");
 		
@@ -693,10 +683,7 @@ public class SoundManager : MonoBehaviour {
 			}
 			break;
 		}
-		toReturn = new Sound[hold.Count];
-		for(int i = 0; i<hold.Count;i++){
-			toReturn[i] = hold[i];
-		}
+		toReturn = hold.ToArray();
 		
 		if(toReturn == null || toReturn.Length == 0)
 			Debug.LogWarning("There's no: "+trackCompare.ToString()+" Track set. Check the typo");
@@ -710,47 +697,24 @@ public class SoundManager : MonoBehaviour {
 	static public void Volume(float volume, track trackCompare){
 		Sound[] snds = GetSounds(trackCompare);
 		for(int i = 0; i<snds.Length;i++){
-            if(volume > snds[i].maxVolume)
-            {
-                snds[i].volume = snds[i].maxVolume;
-                snds[i].lastVolumeSetted = snds[i].maxVolume;
-            }
-            else
-            {
-                snds[i].volume = volume;
-                snds[i].lastVolumeSetted = volume;
-            }
+			float volumeToSet = (volume == 999) ? snds[i].lastVolumeSetted : BetweenZeroOne(volume); 
+
+			snds[i].volume = (volumeToSet > snds[i].maxVolume) ? snds[i].maxVolume : volumeToSet;
+			if(volumeToSet != 0)
+				snds[i].lastVolumeSetted = (volumeToSet > snds[i].maxVolume) ? snds[i].maxVolume : volumeToSet;
 		}
 		for(int i=0;i<_AllPlaying.Count;i++){
 			if(string.Equals(_AllPlaying[i].track.ToString(), trackCompare.ToString()) || trackCompare == track.All)
 			{
-				if(_AllPlaying[i].track == soundTrack.BackgroundSound && !_bkgMuted ||
-					_AllPlaying[i].track == soundTrack.EffectSound && !_efxMuted ||
-					_AllPlaying[i].track == soundTrack.VoiceSound && !_voiceMuted || !_allMuted){
-					
-					if(volume <= 1.0f){
-                        if (volume > _AllPlaying[i].maxVolume)
-                        {
-                            _AllPlaying[i].currentSource.volume = _AllPlaying[i].maxVolume;
-                            _AllPlaying[i].lastVolumeSetted = _AllPlaying[i].maxVolume;
-                        }
-                        else
-                        {
-                            _AllPlaying[i].currentSource.volume = volume;
-                            _AllPlaying[i].lastVolumeSetted = volume;
-                        }
-						if(volume == 0.0f){ 
-							_AllPlaying[i].isMuted = true;
-							_AllPlaying[i].pauseEffect = true;
-						}else{ 
-							_AllPlaying[i].isMuted = false;
-							_AllPlaying[i].pauseEffect = false;
-						}
-					}else{
-						_AllPlaying[i].isMuted = false;
-						_AllPlaying[i].currentSource.volume = _AllPlaying[i].lastVolumeSetted;
-					}
-				}
+				float volumeToSet = (volume == 999) ? _AllPlaying[i].lastVolumeSetted : BetweenZeroOne(volume);
+
+				_AllPlaying[i].currentSource.volume = (volumeToSet > _AllPlaying[i].maxVolume) ? _AllPlaying[i].maxVolume : volumeToSet;
+				if(volumeToSet != 0)
+					_AllPlaying[i].lastVolumeSetted = (volumeToSet > _AllPlaying[i].maxVolume) ? _AllPlaying[i].maxVolume : volumeToSet;
+
+				bool isMuted = (volume == 0.0f);
+				_AllPlaying[i].isMuted = isMuted;
+				_AllPlaying[i].pauseEffect = isMuted;
 			}
 		}
 	}
@@ -758,33 +722,17 @@ public class SoundManager : MonoBehaviour {
 	/// Set the volume of the clip name passed as Param.
 	/// </summary>
 	static public void Volume(float volume, string clipName){
+		volume = BetweenZeroOne(volume);
+
 		for(int i=0;i<_AllPlaying.Count;i++){
 			if(string.Equals(clipName, _AllPlaying[i].name)){
-				if(_AllPlaying[i].track == soundTrack.BackgroundSound && !bkgMuted ||
-				_AllPlaying[i].track == soundTrack.EffectSound && !efxMuted ||
-				_AllPlaying[i].track == soundTrack.VoiceSound && !voiceMuted){
-                    if (volume == 0.0f)
-                    {
-                        _AllPlaying[i].isMuted = true;
-                        _AllPlaying[i].pauseEffect = true;
-                    }
-                    else
-                    {
-                        _AllPlaying[i].isMuted = false;
-                        _AllPlaying[i].pauseEffect = false;
-                    }
+				_AllPlaying[i].currentSource.volume = (volume > _AllPlaying[i].maxVolume) ? _AllPlaying[i].maxVolume : volume;
+				if(volume != 0)
+					_AllPlaying[i].lastVolumeSetted = (volume > _AllPlaying[i].maxVolume) ? _AllPlaying[i].maxVolume : volume;
 
-                    if(volume > _AllPlaying[i].maxVolume)
-                    {
-                        _AllPlaying[i].currentSource.volume = _AllPlaying[i].maxVolume;
-                        _AllPlaying[i].lastVolumeSetted = _AllPlaying[i].maxVolume;
-                    }
-                    else
-                    {
-                        _AllPlaying[i].currentSource.volume = volume;
-                        _AllPlaying[i].lastVolumeSetted = volume;
-                    }
-				}
+				bool isMuted = (volume == 0.0f);
+				_AllPlaying[i].isMuted = isMuted;
+				_AllPlaying[i].pauseEffect = isMuted;
 			}
 		}
 		Sound clip = GetSound(clipName);
@@ -792,15 +740,10 @@ public class SoundManager : MonoBehaviour {
 			Debug.LogWarning("There's no: "+clipName+" AudioClip set to change it's volume. Check the typo");
 			return;
 		}
-        if(volume > clip.maxVolume)
-        {
-            clip.volume = clip.maxVolume;
-            clip.lastVolumeSetted = clip.maxVolume;
-        }else
-        {
-            clip.volume = volume;
-            clip.lastVolumeSetted = volume;
-        }
+
+		clip.volume = (volume > clip.maxVolume) ? clip.maxVolume: volume;
+		if(volume != 0)
+			clip.lastVolumeSetted = (volume > clip.maxVolume) ? clip.maxVolume: volume;
 	}
 	
 	/// <summary>
@@ -823,13 +766,13 @@ public class SoundManager : MonoBehaviour {
         else
             _allMuted = false;
 		
-			Volume((mute)? 0 : 1, compareTrack);		
+		Volume((mute)? 0 : 999, compareTrack);		
 	}
 	/// <summary>
 	/// Mute a single clip, passed as Param.
 	/// </summary>
 	static public void Mute(bool mute, string clipName){
-		Volume((mute)? 0 : 1,clipName);
+		Volume((mute)? 0 : 999,clipName);
 	}
 	/// <summary>
 	/// Stop every single sound.
@@ -1015,7 +958,6 @@ public class SoundManager : MonoBehaviour {
 		if(playingSound.timeToTrigger < -1)playingSound.canShootEvent = false;
 		else playingSound.canShootEvent = true;
 		if(playingSound.timeToTrigger == -1)playingSound.timeToTrigger = playingSound.clip.length;
-		_AllPlaying.Add(playingSound);
 		if(playingSound.isStreamSound){
 			_streamSoundSource.Add(AS);
 			_streamSoundClip.Add(playingSound.clip);
@@ -1025,8 +967,12 @@ public class SoundManager : MonoBehaviour {
         AS.PlayScheduled((AudioSettings.dspTime + delay));
 		AS.time = playAt;
 
+		if(playingSound.mixerGroup != null)
+			AS.outputAudioMixerGroup = playingSound.mixerGroup;
 		playingSound.clip = toPlay;
-		
+
+		_AllPlaying.Add(playingSound);
+
 		return playingSound;
 	}
 }

@@ -56,8 +56,8 @@
             "m_URL": "https://gateway-a.watsonplatform.net/calls",
             "m_User": null,
             "m_Password": null,
-            "m_Apikey": "c0e6b32eec9a36452c6ef423381617b3e87ff902",
-            "m_Note": "It may take up to 5 minutes for this key to become active"
+            "m_Apikey": "74b40fe37844eff752d48ca7ab226b1c374ceb01",
+            "m_Note": "This is your previous free key. If you want a different one, please wait 24 hours after unbinding the key and try again."
         }
     ],
     "m_Variables": [

@@ -4,6 +4,7 @@
 //----------------------------------------------
 
 using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
 
 /// <summary>
@@ -32,6 +33,8 @@ public class Sound : ScriptableObject{
 	
 	[SerializeField]
 	public AudioClip clip;
+	[SerializeField]
+	public AudioMixerGroup mixerGroup;
 	[SerializeField]
 	public new string name;
 	[SerializeField]

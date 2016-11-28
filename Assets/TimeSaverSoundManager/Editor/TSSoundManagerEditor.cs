@@ -4,6 +4,7 @@
 //----------------------------------------------
 
 using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -528,6 +529,7 @@ public class TSSoundManagerEditor : Editor {
 					holder.isP = true;	
 				}
 			}
+
 			if(GUILayout.Button("Stop",EditorStyles.toolbarButton)){
 				if(holder.clip != null){
 					StopClip(holder.clip as AudioClip);
@@ -568,6 +570,10 @@ public class TSSoundManagerEditor : Editor {
 				
 				GUILayout.BeginHorizontal();
 				holder.clip = EditorGUILayout.ObjectField("Audio Clip",holder.clip, typeof(AudioClip), true) as AudioClip;
+				GUILayout.EndHorizontal();
+
+				GUILayout.BeginHorizontal();
+				holder.mixerGroup = EditorGUILayout.ObjectField("Audio Mixer Group",holder.mixerGroup, typeof(AudioMixerGroup), true) as AudioMixerGroup;
 				GUILayout.EndHorizontal();
 				
 				GUILayout.BeginHorizontal();
@@ -726,6 +732,10 @@ public class TSSoundManagerEditor : Editor {
 				GUI.color = Color.white;
 				GUILayout.BeginHorizontal();
 				holder.URL = EditorGUILayout.TextField("URL",holder.URL);
+				GUILayout.EndHorizontal();
+
+				GUILayout.BeginHorizontal();
+				holder.mixerGroup = EditorGUILayout.ObjectField("Audio Mixer Group",holder.mixerGroup, typeof(AudioMixerGroup), true) as AudioMixerGroup;
 				GUILayout.EndHorizontal();
 				
 				GUILayout.BeginHorizontal();
@@ -887,6 +897,10 @@ public class TSSoundManagerEditor : Editor {
 				GUI.color = Color.white;
 				GUILayout.BeginHorizontal();
 				holder.nameInResourceFolder = EditorGUILayout.TextField("Name In Resource Folder",holder.nameInResourceFolder);
+				GUILayout.EndHorizontal();
+
+				GUILayout.BeginHorizontal();
+				holder.mixerGroup = EditorGUILayout.ObjectField("Audio Mixer Group",holder.mixerGroup, typeof(AudioMixerGroup), true) as AudioMixerGroup;
 				GUILayout.EndHorizontal();
 
 				GUILayout.BeginHorizontal();
