@@ -12,6 +12,7 @@ public class NewsFeedNotification : MonoBehaviour {
 	public const string NewsShowFull			= "news.full";
 	public const string NewsReturnFromFull		= "news.back.full";
 	public const string NewsRearange			= "news.rearange";
+	public const string NewsChangeFormat		= "news.change.format";
 
 	public const string ConversationStart 		= "conversation.start";
 	public const string ConversationUserInput 	= "conversation.user.input";

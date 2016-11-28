@@ -32,7 +32,6 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 	private Vector3 m_initialPosition;
 	private Vector2 m_dragOffset;
 
-	private bool m_isCloudMode;
 	private bool m_isDragging = false;
 	private bool m_isClicking = false;
 
@@ -100,7 +99,6 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 		m_realChildIndex = realIndex;
 		m_app = _app;
 		m_newsController = newsController;
-		m_isCloudMode = isCloudMode;
 
 		newsImage.gameObject.SetActive(false);
 
@@ -155,26 +153,17 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 		}
 	}
 	public void OnPointerEnter(PointerEventData ev){
-		if(!isFullScreenMode){
-			if(!m_isCloudMode){
-				transform.SetAsLastSibling();
-				iTween.MoveTo(gameObject, iTween.Hash("y", m_initialPosition.y+50, "time", 0.5f, "islocal", true));
-			}	
+		if(!isFullScreenMode)
 			m_app.Notify(NewsFeedNotification.NewsHoverIn, this, newsTitle.text);
-		}
 	}
 	public void OnPointerExit(PointerEventData ev){
 		if(!isFullScreenMode){
-			if(!m_isCloudMode){
-				transform.SetSiblingIndex(m_realChildIndex);
-				iTween.MoveTo(gameObject, iTween.Hash("y", m_initialPosition.y, "time", 0.5f, "islocal", true));
-			}
 			if(!m_isClicking)
 				m_app.Notify(NewsFeedNotification.NewsHoverOut, this);
 		}
 	}
 	public void OnBeginDrag(PointerEventData ev){
-		if(m_isCloudMode && !isFullScreenMode){
+		if(!isFullScreenMode){
 			m_isDragging = true;
 
 			gameObject.transform.SetAsLastSibling();
@@ -182,11 +171,13 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 			float offSetX = gameObject.transform.localPosition.x - (normalizedPosition.x*NewsFeedModel.SCREEN_WIDHT);
 			float offSetY = gameObject.transform.localPosition.y - (normalizedPosition.y*NewsFeedModel.SCREEN_HEIGHT);
 
+			gameObject.transform.rotation = Quaternion.identity;
+
 			m_dragOffset = new Vector2(offSetX, offSetY);
 		}
 	}
 	public void OnDrag(PointerEventData ev){
-		if(m_isCloudMode && !isFullScreenMode){
+		if(!isFullScreenMode){
 			if(Input.touchCount <= 1){
 				//DRAG
 				Vector3 normalizedPosition = m_camera.ScreenToViewportPoint(new Vector3(ev.position.x, ev.position.y, 0));

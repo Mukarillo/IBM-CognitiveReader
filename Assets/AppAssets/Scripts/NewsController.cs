@@ -15,8 +15,8 @@ using UnityEngine.UI;
 public class NewsController : NewsFeedController {
 
 	public enum newsFormatViewTypes{
-		line,
-		cloud
+		line = 0,
+		cloud = 1
 	};
 
 	public int numberOfNews = 11;
@@ -48,35 +48,50 @@ public class NewsController : NewsFeedController {
 			ClearNews();
 			break;
 		case NewsFeedNotification.NewsShowFull:
+			app.model.formatButton.SetActive(false);
 			ShowFullNews(p_data[0] as NewsPanel);
 			break;
 		case NewsFeedNotification.NewsReturnFromFull:
+			app.model.formatButton.SetActive(true);
 			HideFullNews();
 			break;
 		case NewsFeedNotification.NewsRearange:
 			RearangeNews();
+			break;
+		case NewsFeedNotification.NewsChangeFormat:
+			FormatNewsView((newsFormatViewTypes)int.Parse(p_data[0].ToString()));
 			break;
 
 		}
 	}
 
 	private void RearangeNews(){
+		app.model.formatLineIcon.SetActive(true);
+		app.model.formatCloudIcon.SetActive(false);
+
+		app.model.currentNewsFormat = newsFormatViewTypes.cloud;
+
 		Camera c = GameObject.FindWithTag("UICamera").GetComponent<Camera>();
-		float screenPercentageX = NewsFeedModel.SCREEN_WIDHT*0.1f;
+		float screenPercentageX = NewsFeedModel.SCREEN_WIDHT*0.25f;
 
 		for(int i = 0; i < m_allNewsUI.Count; i++){
 			float xNormalizedPos = c.ScreenToViewportPoint(m_allNewsUI[i].transform.localPosition).x;
-			float left = (app.model.isShowingCommandWindow) ? 0.35f * NewsFeedModel.SCREEN_WIDHT : screenPercentageX;
-			float right = (app.model.isShowingHelperWindow) ? NewsFeedModel.SCREEN_WIDHT - (0.35f * NewsFeedModel.SCREEN_WIDHT) : NewsFeedModel.SCREEN_WIDHT - screenPercentageX;
+			float left = (app.model.isShowingCommandWindow) ? 0.3f * NewsFeedModel.SCREEN_WIDHT : screenPercentageX;
+			float right = (app.model.isShowingHelperWindow) ? NewsFeedModel.SCREEN_WIDHT - (0.3f * NewsFeedModel.SCREEN_WIDHT) : NewsFeedModel.SCREEN_WIDHT - screenPercentageX;
 
-			if(xNormalizedPos < 0.35f || xNormalizedPos > 0.35f){
+			if(xNormalizedPos < 0.3f || xNormalizedPos > 0.3f){
 				float rPosX = UnityEngine.Random.Range(left, right);
 				iTween.MoveTo(m_allNewsUI[i], iTween.Hash("x", rPosX, "islocal", true, "time", 0.5f));
+				iTween.RotateTo(m_allNewsUI[i], iTween.Hash("x", 0, "y", 0, "z", 0, "islocal", true, "time", 0.5f));
 			}
 		}
 	}
 
 	private void FormatNewsView(newsFormatViewTypes format){
+		app.model.currentNewsFormat = format;
+		app.model.formatLineIcon.SetActive((format == newsFormatViewTypes.cloud));
+		app.model.formatCloudIcon.SetActive((format == newsFormatViewTypes.line));
+
 		switch(format){
 		case newsFormatViewTypes.cloud:
 			float screenPercentageX = NewsFeedModel.SCREEN_WIDHT*0.1f;
@@ -99,16 +114,16 @@ public class NewsController : NewsFeedController {
 			}
 			break;
 		case newsFormatViewTypes.line:
-			for(int i = 0; i < m_allNewsUI.Count; i++){
-				float posX = ((671*i) - 5841)/numberOfNews; // ((671*0) - 5841)/11
-				float posY = ((-109*i)+1287)/numberOfNews;
-				float posZ = ((-799*i)+8228)/numberOfNews;
+			for(int i = 0; i < app.model.newsPrefabParent.childCount; i++){
+				float posX = (((671*i) - 5841)/numberOfNews) + (NewsFeedModel.SCREEN_WIDHT/2);
+				float posY = (((-109*i)+1287)/numberOfNews) + (NewsFeedModel.SCREEN_HEIGHT/4);
+				float posZ = (((-799*i)+8228)/numberOfNews);
 
-				m_allNewsUI[i].GetComponent<RectTransform>().anchorMin = new Vector2(0.5f,0.5f);
-				m_allNewsUI[i].GetComponent<RectTransform>().anchorMax = new Vector2(0.5f,0.5f);
+				app.model.newsPrefabParent.GetChild(i).GetComponent<RectTransform>().anchorMin = new Vector2(0.5f,0.5f);
+				app.model.newsPrefabParent.GetChild(i).GetComponent<RectTransform>().anchorMax = new Vector2(0.5f,0.5f);
 
-				iTween.RotateTo(m_allNewsUI[i], iTween.Hash("x", -6, "y", -40, "z", 3, "islocal", true, "time", 0.5f));
-				iTween.MoveTo(m_allNewsUI[i], iTween.Hash("x", posX, "y", posY, "z", posZ,"islocal", true, "time", 0.5f));
+				iTween.RotateTo(app.model.newsPrefabParent.GetChild(i).gameObject, iTween.Hash("x", -6, "y", -40, "z", 3, "islocal", true, "time", 0.5f));
+				iTween.MoveTo(app.model.newsPrefabParent.GetChild(i).gameObject, iTween.Hash("x", posX, "y", posY, "z", posZ,"islocal", true, "time", 0.5f));
 			}
 			break;
 		}

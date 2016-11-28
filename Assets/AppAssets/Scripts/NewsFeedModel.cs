@@ -29,6 +29,10 @@ public class NewsFeedModel : NewsFeedElement {
 	public GameObject soundIconOn;
 	public GameObject soundIconOff;
 
+	public GameObject formatButton;
+	public GameObject formatLineIcon;
+	public GameObject formatCloudIcon;
+
 	public GameObject microphoneRecordingIcon;
 
 	[HideInInspector]
@@ -37,4 +41,6 @@ public class NewsFeedModel : NewsFeedElement {
 	public bool isShowingHelperWindow = false;
 	[HideInInspector]
 	public bool isShowingCommandWindow = false;
+
+	public NewsController.newsFormatViewTypes currentNewsFormat = NewsController.newsFormatViewTypes.cloud;
 }

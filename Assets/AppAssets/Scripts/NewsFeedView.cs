@@ -68,6 +68,10 @@ public class NewsFeedView : NewsFeedElement {
 		app.Notify(NewsFeedNotification.ChatRegisterMessage, this, t.text, false);
 	}
 
+	public void OnToggleNewsFormat(){
+		app.Notify(NewsFeedNotification.NewsChangeFormat, this, (app.model.currentNewsFormat == NewsController.newsFormatViewTypes.cloud) ? 0 : 1);
+	}
+
 	public void ToggleArticleOptions(bool show){
 		app.model.helpCommandButton.SetActive(!show);
 		app.model.articleOptionsUI.GetComponent<Animator>().SetBool("Open", show);
