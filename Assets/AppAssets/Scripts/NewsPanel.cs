@@ -25,7 +25,6 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 	private NewsFeedApplication m_app;
 
 	private int m_realChildIndex;
-	private float m_clickTimer;
 
 	private Camera m_camera;
 
@@ -133,15 +132,13 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 			m_app.Notify(NewsFeedNotification.NewsHoverIn, this, newsTitle.text);
 			m_newsController.interactingPanel = this;		
 			m_isClicking = true;
-			m_clickTimer = Time.time;
 		}
 	}
 	public void OnPointerUp(PointerEventData ev){
 		if(m_newsController.interactingPanel != null && m_newsController.interactingPanel == this && !isFullScreenMode){
 			m_isClicking = false;
 			m_newsController.interactingPanel = null;
-			float timeToClick = Time.time - m_clickTimer;
-			if(timeToClick < 0.12f){
+			if(!m_isDragging){
 				m_app.Notify(NewsFeedNotification.NewsShowFull, this, this);
 				m_app.Notify(NewsFeedNotification.NewsHoverOut, this);
 
