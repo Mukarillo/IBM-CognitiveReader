@@ -26,11 +26,11 @@ Open the 'Main' scene from Assets/Scene and hit play button.
 
 ### Gathering news
 
-As soon as the application start, news will show up. You can at any time click the Chat Button at the upper corner and use the microphone or write to request news about the subject that you want.
+As soon as the application start, news panels will show up. You can at any time click the Chat Button at the upper corner and use the microphone or write to request news about the subject that you want.
 
 ### Rearanging the news panels
 
-You can drag them around and pinch to scale them. Also, there is a button in the bottom left corner that rearange the news in a Line format and Cloud format.
+You can drag them around and pinch to scale them. Also, there is a button in the bottom left corner that rearange the news panels in a Line format and Cloud format.
 
 ### Interacting with news
 
@@ -38,7 +38,7 @@ To enlarge the news panel, just click the panel. An options window will show up 
 
 ### Translating the article
 
-With any article opened, lcick the Chat Button at the upper corner and use the microphone or write to request for a translation. The supported languages are:
+With any article opened, click the Chat Button at the upper corner and use the microphone or write to request for a translation. The supported languages are:
 ```
 English
 French
@@ -47,10 +47,9 @@ Italian
 Portuguese
 Spanish
 ```
+```
 
-## Running the project
-
-Open the 'Main' scene from Assets/Scene and hit play button.
+*You can ask for "help" in the chat window to check all the features*
 
 ## External Tools
 
