@@ -28,8 +28,8 @@ public class NewsFeedNotification : MonoBehaviour {
 	public const string TranslateText			= "translate.text";
 
 	public static readonly string[] MisunderstoodQuestion = new string[]{
-		"Sorry, could you please repeat?",
-		"I wasn't hearing you when you said that, could you repeat please?",
+		"Sorry, can you please repeat?",
+		"I wasn't hearing when you said that, can you repeat please?",
 		"Please rephrase what you said.",
 		"I cant process what you said, please repeat."
 	};

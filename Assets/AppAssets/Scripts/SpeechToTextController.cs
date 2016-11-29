@@ -132,9 +132,7 @@ public class SpeechToTextController : NewsFeedController {
 
 				yield return new WaitForSeconds(timeRemaining);
 			}
-
 		}
-
 		yield break;
 	}
 

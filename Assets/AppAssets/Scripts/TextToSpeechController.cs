@@ -43,10 +43,6 @@ public class TextToSpeechController : NewsFeedController {
 			break;
 		}
 	}
-	// Use this for initialization
-	void Start () {
-		LogSystem.InstallDefaultReactors();
-	}
 
 	void HandleToSpeechCallback (AudioClip clip)
 	{
@@ -77,9 +73,8 @@ public class TextToSpeechController : NewsFeedController {
 			GameObject.Destroy(audioObject, clip.length);
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void Start () {
+		LogSystem.InstallDefaultReactors();
 	}
 }

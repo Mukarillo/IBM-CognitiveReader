@@ -41,6 +41,6 @@ public class NewsFeedModel : NewsFeedElement {
 	public bool isShowingHelperWindow = false;
 	[HideInInspector]
 	public bool isShowingCommandWindow = false;
-
+	[HideInInspector]
 	public NewsController.newsFormatViewTypes currentNewsFormat = NewsController.newsFormatViewTypes.cloud;
 }

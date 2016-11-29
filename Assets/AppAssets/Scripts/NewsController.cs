@@ -25,7 +25,6 @@ public class NewsController : NewsFeedController {
 	[HideInInspector]
 	public NewsPanel interactingPanel;
 
-	private AlchemyAPI m_AlchemyAPI = new AlchemyAPI();
 	private List<GameObject> m_allNewsUI = new List<GameObject>();
 	private string m_lastSearchedSubject;
 	private NewsPanel m_currentActivePanel;
@@ -181,7 +180,7 @@ public class NewsController : NewsFeedController {
 			Fields.ENRICHED_URL_IMAGE,
 			Fields.ENRICHED_URL_TEXT,
 			Fields.ENRICHED_URL_CLEANEDTITLE
-		} ;
+		};
 
 		string url = string.Format("https://access.alchemyapi.com/calls/data/GetNews?apikey={0}&return=", Config.Instance.GetAPIKey("AlchemyAPIV1"));
 		for(int i = 0; i < returnFields.Length; i++){
@@ -247,7 +246,6 @@ public class NewsController : NewsFeedController {
 						newsData.result.docs[i].source.enriched.url.text,
 						newsData.result.docs[i].source.enriched.url.image,
 						newsData.result.docs[i].source.original.url,
-						i,
 						app,
 						this,
 						true
@@ -256,10 +254,9 @@ public class NewsController : NewsFeedController {
 					m_allNewsUI.Add(news);
 					yield return new WaitForSeconds(0.5f);
 				}
-				//FormatNewsView(newsFormatViewTypes.cloud);
 			}else{
-				app.Notify(NewsFeedNotification.TextToSpeechSpeak, this, string.Format("I cound not find any news about { 0}.", about));
-				app.Notify(NewsFeedNotification.ChatRegisterMessage, this, string.Format("I cound not find any news about { 0}.", about), true);
+				app.Notify(NewsFeedNotification.TextToSpeechSpeak, this, string.Format("I cound not find any news about {0}.", about));
+				app.Notify(NewsFeedNotification.ChatRegisterMessage, this, string.Format("I cound not find any news about {0}.", about), true);
 			}
 		}else{
 			StartCoroutine(GetNews(about, numberOfNews));
@@ -271,13 +268,5 @@ public class NewsController : NewsFeedController {
 		LogSystem.InstallDefaultReactors();
 
 		app.Notify(NewsFeedNotification.NewsShow, this, startingSubjects[UnityEngine.Random.Range(0, startingSubjects.Length)]);
-	}
-	void Update(){
-		if(Input.GetKeyDown(KeyCode.V)){
-			FormatNewsView(newsFormatViewTypes.line);
-		}
-		if(Input.GetKeyDown(KeyCode.B)){
-			FormatNewsView(newsFormatViewTypes.cloud);
-		}
 	}
 }

@@ -6,6 +6,17 @@ using System.Collections;
 
 public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
+	public enum newsLanguages{
+		english,
+		french,
+		german,
+		italian,
+		portuguese,
+		spanish
+	}
+
+	public newsLanguages currentNewsLanguage = newsLanguages.english;
+
 	public Image newsImage;
 	public InputField newsTitle, newsText;
 	public GameObject loadingIcon;
@@ -23,8 +34,6 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 
 	private NewsController m_newsController;
 	private NewsFeedApplication m_app;
-
-	private int m_realChildIndex;
 
 	private Camera m_camera;
 
@@ -89,13 +98,12 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 		}
 	}
 
-	public void SetNewsInterface(string title, string text, string image_url, string news_url, int realIndex, NewsFeedApplication _app, NewsController newsController, bool isCloudMode){
+	public void SetNewsInterface(string title, string text, string image_url, string news_url, NewsFeedApplication _app, NewsController newsController, bool isCloudMode){
 		newsTitle.text = title;
 		englishTitle = title;
 		newsText.text = text;
 		englishText = text;
 		newsURL = news_url;
-		m_realChildIndex = realIndex;
 		m_app = _app;
 		m_newsController = newsController;
 
@@ -176,7 +184,6 @@ public class NewsPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 	public void OnDrag(PointerEventData ev){
 		if(!isFullScreenMode){
 			if(Input.touchCount <= 1){
-				//DRAG
 				Vector3 normalizedPosition = m_camera.ScreenToViewportPoint(new Vector3(ev.position.x, ev.position.y, 0));
 				Vector3 rPosition = new Vector3(normalizedPosition.x*NewsFeedModel.SCREEN_WIDHT+m_dragOffset.x, normalizedPosition.y*NewsFeedModel.SCREEN_HEIGHT+m_dragOffset.y, 0);
 

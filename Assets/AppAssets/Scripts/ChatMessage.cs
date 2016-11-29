@@ -9,7 +9,7 @@ public class ChatMessage : MonoBehaviour {
 	public void SetChatMessage(string message, bool isWatsonMessage){
 		messageUI.text = message;
 
-		GameObject childAnimated = gameObject.transform.GetChild(0).gameObject;
+		GameObject gameObjectToAnimate = gameObject.transform.GetChild(0).gameObject;
 
 		if(isWatsonMessage){
 			titleUI.text = "IBM Watson";
@@ -18,7 +18,7 @@ public class ChatMessage : MonoBehaviour {
 			messageUI.rectTransform.offsetMin = new Vector2(40,0);
 			messageUI.rectTransform.offsetMax = new Vector2(0, -64);
 
-			childAnimated.transform.localPosition = new Vector3(-500,0,0);
+			gameObjectToAnimate.transform.localPosition = new Vector3(-500,0,0);
 		}else{
 			titleUI.text = "You";
 			titleUI.alignment = TextAnchor.UpperRight;
@@ -30,21 +30,19 @@ public class ChatMessage : MonoBehaviour {
 			messageUI.color = c;
 			titleUI.GetComponent<Outline>().effectColor = c;
 
-			childAnimated.transform.localPosition = new Vector3(500,0,0);
+			gameObjectToAnimate.transform.localPosition = new Vector3(500,0,0);
 		}
 
 		if(message.Length > 100){
 			gameObject.GetComponent<LayoutElement>().minHeight = 200 + ((message.Length - 100));
 		}
 
-		RectTransform toDebug = gameObject.GetComponent<RectTransform>();
-
-		iTween.ValueTo(gameObject, iTween.Hash("from", childAnimated.transform.localPosition.x,"to",0,"time",0.2f,"onupdate","RepositionMessageBox", "easetype", iTween.EaseType.easeInOutExpo));
+		iTween.ValueTo(gameObject, iTween.Hash("from", gameObjectToAnimate.transform.localPosition.x,"to",0,"time",0.2f,"onupdate","RepositionMessageBox", "easetype", iTween.EaseType.easeInOutExpo));
 	}
 
 	private void RepositionMessageBox(float p){
-		RectTransform childAnimated = gameObject.transform.GetChild(0).GetComponent<RectTransform>();
-		childAnimated.offsetMax = new Vector2(p,0);
-		childAnimated.offsetMin = new Vector2(p,0);
+		RectTransform rect = gameObject.transform.GetChild(0).GetComponent<RectTransform>();
+		rect.offsetMax = new Vector2(p,0);
+		rect.offsetMin = new Vector2(p,0);
 	}
 }
