@@ -47,7 +47,6 @@ Italian
 Portuguese
 Spanish
 ```
-```
 
 *You can ask for "help" in the chat window to check all the features*
 
