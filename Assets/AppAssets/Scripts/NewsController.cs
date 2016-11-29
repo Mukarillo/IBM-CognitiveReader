@@ -192,7 +192,6 @@ public class NewsController : NewsFeedController {
 		WWW www = new WWW(url);
 
 		yield return www;
-		Debug.Log(www.text);
 
 		NewsResponse newsData = new NewsResponse();
 		fsSerializer sm_Serializer = new fsSerializer();
@@ -222,6 +221,8 @@ public class NewsController : NewsFeedController {
 	private IEnumerator OnShowNews(NewsResponse newsData, string about){
 		if(newsData.status != "ERROR"){
 			ClearNews();
+			iTween.StopByName("flashingtitle");
+			FadeGatheringText(0f);
 
 			if(newsData.result.docs.Length > 0){
 				float screenPercentageX = NewsFeedModel.SCREEN_WIDHT*0.1f;
@@ -263,9 +264,18 @@ public class NewsController : NewsFeedController {
 		}
 	}
 
+	private void FadeGatheringText(float v){
+		Color c = app.model.gatheringNewsText.color;
+		c.a = v;
+		app.model.gatheringNewsText.color = c;
+	}
+
+
 	// Use this for initialization
 	void Start () {
 		LogSystem.InstallDefaultReactors();
+
+		iTween.ValueTo(gameObject, iTween.Hash("name", "flashingtitle", "from", 0, "to", 1, "time", 1.0f, "looptype", iTween.LoopType.pingPong, "onupdate","FadeGatheringText"));
 
 		app.Notify(NewsFeedNotification.NewsShow, this, startingSubjects[UnityEngine.Random.Range(0, startingSubjects.Length)]);
 	}

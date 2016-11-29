@@ -35,6 +35,8 @@ public class NewsFeedModel : NewsFeedElement {
 
 	public GameObject microphoneRecordingIcon;
 
+	public Text gatheringNewsText;
+
 	[HideInInspector]
 	public NewsPanel currentNewsPanel;
 	[HideInInspector]
