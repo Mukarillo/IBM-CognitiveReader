@@ -48,6 +48,8 @@ Portuguese
 Spanish
 ```
 
+## Running the project
+
 Open the 'Main' scene from Assets/Scene and hit play button.
 
 ## External Tools
