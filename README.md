@@ -24,17 +24,17 @@ Open the 'Main' scene from Assets/Scene and hit play button.
 
 ## Features
 
-### Gathering news
+### Gathering news articles
 
-As soon as the application start, news panels will show up. You can at any time click the Chat Button at the upper corner and use the microphone or write to request news about the subject that you want.
+As soon as the application start, news articles panels will show up. You can at any time click the Chat Button at the upper corner and use the microphone or write to request news articles about the subject that you want.
 
-### Rearanging the news panels
+### Rearangging the news articles panels
 
-You can drag them around and pinch to scale them. Also, there is a button in the bottom left corner that rearange the news panels in a Line format and Cloud format.
+You can drag them around and pinch to scale them. Also, there is a button in the bottom left corner that rearange the news articles panels in a Line format and Cloud format.
 
-### Interacting with news
+### Interacting with news articles
 
-To enlarge the news panel, just click the panel. An options window will show up with some actions.
+To enlarge the news articles panel, just click the panel. An options window will show up with some actions.
 
 ### Translating the article
 
