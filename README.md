@@ -1,4 +1,4 @@
-# IMB-CognitiveReader
+# IBM-CognitiveReader
 
 Project made for IBM using IBM Watson Unity SDK to provide an immersive 3D cognitive interface for exploring news.
 
