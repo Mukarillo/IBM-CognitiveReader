@@ -92,4 +92,8 @@ public class NewsFeedView : NewsFeedElement {
 		SoundManager.Play("buttonEffect");
 		Application.OpenURL(app.model.currentNewsPanel.newsURL);
 	}
+
+	public void OnQuitApplication(){
+		Application.Quit();
+	}
 }
